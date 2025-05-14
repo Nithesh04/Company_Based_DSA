@@ -73,6 +73,13 @@
             current.pop_back();  // backtrack
         }
     }
+    vector<vector<int>> findCombinations(vector<int>& prices, int budget) {
+        vector<vector<int>> result;
+        vector<int> current;
+        sort(prices.begin(), prices.end());  // optional but helps avoid unnecessary work
+        backtrack(prices, budget, current, result, 0);
+        return result;
+    }
 //DP
 
     void buildCombinations(int target, vector<vector<vector<int>>>& dp, vector<vector<int>>& result) {
