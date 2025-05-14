@@ -60,6 +60,7 @@
 
 ### Q3: Users can add money to their wallet and choose from their list of available item prices. The application should use us to find all unique combinations of item prices that exactly boost up their budget. However, users can buy the same item multiple times, e.g. buying two packets of rice, price Rs. 5 is allowed. Given an array of positive integer prices representing item prices and an integer budget, return all unique combinations when the chosen item price sums up to the budget. You can use each item unlimited times. Test Case 1 Prices :[2,5,3] Budget 8 output: [[2,2,2,2],[3,3,2],[5,3]] Test Case 2 Prices :[8,9,1,0] Budget 7 output:[] Test Case 3 :Prices :[1] Budget 2 Answer [[1,1]]
 //backtracking
+
     void backtrack(vector<int>& prices, int budget, vector<int>& current, vector<vector<int>>& result, int start) {
         if (budget == 0) {
             result.push_back(current);
@@ -73,31 +74,32 @@
         }
     }
 //DP
+
     void buildCombinations(int target, vector<vector<vector<int>>>& dp, vector<vector<int>>& result) {
     result = dp[target];
-}
-
-vector<vector<int>> combinationSumDP(vector<int>& prices, int budget) {
-    sort(prices.begin(), prices.end());
-    prices.erase(remove_if(prices.begin(), prices.end(), [](int x){ return x <= 0; }), prices.end());
-
-    // dp[i] stores all combinations that sum to i
-    vector<vector<vector<int>>> dp(budget + 1);
-
-    // base case: one way to make 0 sum → empty list
-    dp[0] = {{}};
-
-    for (int price : prices) {
-        for (int sum = price; sum <= budget; ++sum) {
-            for (const auto& combo : dp[sum - price]) {
-                vector<int> newCombo = combo;
-                newCombo.push_back(price);
-                dp[sum].push_back(newCombo);
-            }
-        }
     }
 
-    vector<vector<int>> result;
-    buildCombinations(budget, dp, result);
-    return result;
-}
+    vector<vector<int>> combinationSumDP(vector<int>& prices, int budget) {
+        sort(prices.begin(), prices.end());
+        prices.erase(remove_if(prices.begin(), prices.end(), [](int x){ return x <= 0; }), prices.end());
+    
+        // dp[i] stores all combinations that sum to i
+        vector<vector<vector<int>>> dp(budget + 1);
+    
+        // base case: one way to make 0 sum → empty list
+        dp[0] = {{}};
+    
+        for (int price : prices) {
+            for (int sum = price; sum <= budget; ++sum) {
+                for (const auto& combo : dp[sum - price]) {
+                    vector<int> newCombo = combo;
+                    newCombo.push_back(price);
+                    dp[sum].push_back(newCombo);
+                }
+            }
+        }
+    
+        vector<vector<int>> result;
+        buildCombinations(budget, dp, result);
+        return result;
+    }
