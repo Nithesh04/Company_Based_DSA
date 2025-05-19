@@ -156,3 +156,41 @@ Explanation: There are three ways to climb to the top.
             }
             return second;
         }
+
+### Q5: A frog wants to cross a river by jumping across n stones arranged in a line. the frog starts at stone 0 and wants to reach stone n. the flag can jump either 1,2 or 3 stones forward at a time. our task is to find how many different ways to frog can reach the nth stone 
+
+#### tabulation
+        int countWays(int n) {
+            vector<int> dp(n + 1, 0); // Create a dp array of size (n+1), initialized to 0
+            dp[0] = 1; // There's 1 way to stand at the starting stone (doing nothing)
+        
+            for (int i = 1; i <= n; i++) {
+                if (i >= 1) dp[i] += dp[i - 1];
+                if (i >= 2) dp[i] += dp[i - 2];
+                if (i >= 3) dp[i] += dp[i - 3];
+            }
+        
+            return dp[n]; // Return the total number of ways to reach the nth stone
+        }
+#### Space optimization
+    int countWays(int n) {
+        if (n == 0) return 1;
+        if (n == 1) return 1;
+        if (n == 2) return 2;
+    
+        int a = 1; // dp[0]
+        int b = 1; // dp[1]
+        int c = 2; // dp[2]
+        int current;
+    
+        for (int i = 3; i <= n; i++) {
+            current = a + b + c; // dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
+            a = b;
+            b = c;
+            c = current;
+        }
+    
+        return c;
+    }
+
+
