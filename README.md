@@ -223,4 +223,144 @@ Output: 0
     
         return dp[amount] == amount + 1 ? -1 : dp[amount];
     }
+###Day 01 - Corporate - Technical Questions - 24.05.2025 
+###There is a JAR full of candies for sale at a mall counter. JAR has the capacity N, that is JAR can contain maximum N candies when JAR is full. At any point of time. JAR can have M number of Candies where ###M<=N. Candies are served to the customers. JAR is never remain empty as when last k candies are left. JAR if refilled with new candies in such a way that JAR get full.
+
+###Write a code to implement above scenario. Display JAR at counter with available number of candies. Input should be the number of candies one customer can order at point of time. Update the JAR after each ###purchase and display JAR at Counter.
+
+###Output should give number of Candies sold and updated number of Candies in JAR.
+
+###If Input is more than candies in JAR, return: “INVALID INPUT”
+
+###Given,
+
+###N=10, where N is NUMBER OF CANDIES AVAILABLE
+###K =< 5, where k is number of minimum candies that must be inside JAR ever.
+
+###Example 1:(N = 10, k =< 5)
+
+###Input Value
+###3
+###Output Value
+###NUMBER OF CANDIES SOLD : 3
+###NUMBER OF CANDIES LEFT : 7
+
+###Example 2 : (N=10, k<=5)
+Input Value
+###0
+###Output Value
+###INVALID INPUT
+###NUMBER OF CANDIES LEFT : 10
+
+    #include <iostream>
+    using namespace std;
+
+    int main() {
+        const int N = 10; // Maximum capacity of the jar
+        const int K = 5;  // Minimum threshold before refill
+        int jar = N;      // Initial candy count
+    
+        int input;        // Candies requested by the customer
+    
+        // Read input from user
+        cout << "Enter the number of candies to buy: ";
+        cin >> input;
+    
+        // Check for invalid input
+        if (input <= 0 || input > jar) {
+            cout << "INVALID INPUT" << endl;
+            cout << "NUMBER OF CANDIES LEFT : " << jar << endl;
+        } else {
+            // Sell candies
+            jar -= input;
+            cout << "NUMBER OF CANDIES SOLD : " << input << endl;
+    
+            // Refill jar if candies fall below or equal to K
+            if (jar <= K) {
+                jar = N;
+            }
+    
+            cout << "NUMBER OF CANDIES LEFT : " << jar << endl;
+        }
+    
+        return 0;
+    }
+###Day 02 - Corporate - Technical Questions - 25.05.2025 
+
+There are total n number of Monkeys sitting on the branches of a huge Tree. As travelers offer Bananas and Peanuts, the Monkeys jump down the Tree. If every Monkey can eat k Bananas and j Peanuts. If total m number of Bananas and p number of Peanuts are offered by travelers, calculate how many Monkeys remain on the Tree after some of them jumped down to eat.
+
+At a time one Monkeys gets down and finishes eating and go to the other side of the road. The Monkey who climbed down does not climb up again after eating until the other Monkeys finish eating.
+Monkey can either eat k Bananas or j Peanuts. If for last Monkey there are less than k Bananas left on the ground or less than j Peanuts left on the ground, only that Monkey can eat Bananas(<k) along with the Peanuts(<j).
+
+Write code to take inputs as n, m, p, k, j and return  the number of Monkeys left on the Tree.
+Where, n= Total no of Monkeys
+k= Number of eatable Bananas by Single Monkey (Monkey that jumped down last may get less than k Bananas)
+j = Number of eatable Peanuts by single Monkey(Monkey that jumped down last may get less than j Peanuts)
+m = Total number of Bananas
+p  = Total number of Peanuts
+
+Remember that the Monkeys always eat Bananas and Peanuts, so there is no possibility of k and j having a value zero
+
+Example 1:
+
+Input Values    
+20
+2
+3
+12
+12
+
+
+Output Values
+
+Number of  Monkeys left on the tree:10
+
+Note: Kindly follow  the order of inputs as n,k,j,m,p as given in the above example. And output must include  the same format  as in above example(Number of Monkeys left on the Tree:)
+
+For any wrong input display INVALID INPUT
+
+    #include <iostream>
+    using namespace std;
+    
+    int main() {
+        int n, k, j, m, p;
+    
+        // Reading inputs
+        cin >> n >> k >> j >> m >> p;
+    
+        // Check for invalid input
+        if (n <= 0 || k <= 0 || j <= 0 || m < 0 || p < 0) {
+            cout << "INVALID INPUT" << endl;
+            return 0;
+        }
+    
+        int monkeysLeft = n;
+        
+        for (int i = 0; i < n; ++i) {
+            // Check if enough for a full banana meal
+            if (m >= k) {
+                m -= k;
+                monkeysLeft--;
+            }
+            // Else, check if enough for a full peanut meal
+            else if (p >= j) {
+                p -= j;
+                monkeysLeft--;
+            }
+            // Last monkey can eat remaining smaller quantity of both
+            else if (m > 0 || p > 0) {
+                m = 0;
+                p = 0;
+                monkeysLeft--;
+                break; // no more food left after this
+            }
+            // No food left
+            else {
+                break;
+            }
+        }
+    
+        cout << "Number of Monkeys left on the tree:" << monkeysLeft << endl;
+        return 0;
+    }
 
