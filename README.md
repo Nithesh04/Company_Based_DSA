@@ -223,7 +223,7 @@ Output: 0
     
         return dp[amount] == amount + 1 ? -1 : dp[amount];
     }
-### Day 01 - Corporate - Technical Questions - 24.05.2025 
+### Day 01 - Corporate - Technical Questions 
 ### There is a JAR full of candies for sale at a mall counter. JAR has the capacity N, that is JAR can contain maximum N candies when JAR is full. At any point of time. JAR can have M number of Candies where M<=N. Candies are served to the customers. JAR is never remain empty as when last k candies are left. JAR if refilled with new candies in such a way that JAR get full.
 
 Write a code to implement above scenario. Display JAR at counter with available number of candies. Input should be the number of candies one customer can order at point of time. Update the JAR after each purchase and display JAR at Counter.
@@ -285,7 +285,7 @@ NUMBER OF CANDIES LEFT : 10
     
         return 0;
     }
-### Day 02 - Corporate - Technical Questions - 25.05.2025 
+### Day 02 - Corporate - Technical Questions 
 
 There are total n number of Monkeys sitting on the branches of a huge Tree. As travelers offer Bananas and Peanuts, the Monkeys jump down the Tree. If every Monkey can eat k Bananas and j Peanuts. If total m number of Bananas and p number of Peanuts are offered by travelers, calculate how many Monkeys remain on the Tree after some of them jumped down to eat.
 
@@ -362,5 +362,242 @@ For any wrong input display INVALID INPUT
     
         cout << "Number of Monkeys left on the tree:" << monkeysLeft << endl;
         return 0;
+    }
+### Day 03 - Corporate - Technical Questions  
+
+A carry is a digit that is transferred to left if sum of digits exceeds 9 while adding two numbers from right-to-left one digit at a time
+
+You are required to implement the following function.
+
+Int NumberOfCarries(int num1 , int num2);
+
+The functions accepts two numbers ‘num1’ and ‘num2’ as its arguments. You are required to calculate and return  the total number of carries generated while adding digits of two numbers ‘num1’ and ‘ num2’.
+
+Assumption: num1, num2>=0
+
+Example:
+
+Input
+
+Num 1: 451
+Num 2: 349
+
+Output
+2
+
+    int NumberOfCarries(int num1, int num2) {
+        int carry = 0;
+        int count = 0;
+    
+        while (num1 > 0 || num2 > 0) {
+            int digit1 = num1 % 10;
+            int digit2 = num2 % 10;
+    
+            int sum = digit1 + digit2 + carry;
+    
+            if (sum >= 10) {
+                carry = 1;
+                count++;
+            } else {
+                carry = 0;
+            }
+    
+            num1 /= 10;
+            num2 /= 10;
+        }
+    
+        return count;
+    }
+
+### Day 03 - Corporate - Technical Questions  
+Particulate matters are the biggest contributors to Delhi pollution. The main reason behind the increase in the concentration of PMs include vehicle emission by applying Odd Even concept for all types of vehicles. The vehicles with the odd last digit in the registration number will be allowed on roads on odd dates and those with even last digit will on even dates.
+
+Given an integer array a[], contains the last digit of the registration number of N vehicles traveling on date D(a positive integer). The task is to calculate the total fine collected by the traffic police department from the vehicles violating the rules.
+
+Note : For violating the rule, vehicles would be fined as X Rs.
+
+Example 1:
+
+Input :
+
+4 -> Value of N
+
+{5,2,3,7} -> a[], Elements a[0] to a[N-1], during input each element is separated by a new line
+
+12 -> Value of D, i.e. date 
+
+200 -> Value of x i.e. fine
+
+Output :
+
+600  -> total fine collected
+
+    int calculateFine(int a[], int n, int d, int x) {
+        int totalFine = 0;
+        bool isDateEven = (d % 2 == 0);
+    
+        for (int i = 0; i < n; i++) {
+            bool isVehicleEven = (a[i] % 2 == 0);
+    
+            // Fine if vehicle parity doesn't match date parity
+            if (isVehicleEven != isDateEven) {
+                totalFine += x;
+            }
+        }
+    
+        return totalFine;
+    }
+
+### Day 05 - Corporate - Technical Questions  
+
+You are given a function,
+
+Int MaxExponents (int a , int b);
+
+You have to find and return the number between ‘a’ and ‘b’ ( range inclusive on both ends) which has the maximum exponent of 2.
+
+The algorithm to find the number with maximum exponent of 2 between the given range is
+
+Loop between ‘a’ and ‘b’. Let the looping variable be ‘i’.
+Find the exponent (power) of 2 for each ‘i’ and store the number with maximum exponent of 2 so faqrd in a variable , let say ‘max’. Set ‘max’ to ‘i’ only if ‘i’ has more exponent of 2 than ‘max’.
+Return ‘max’.
+Assumption: a <b
+
+Note: If two or more numbers in the range have the same exponents of  2 , return the small number.
+
+Example
+
+Input:
+
+7
+12
+
+Output:
+8
+
+    // Helper function to count how many times 2 divides a number
+    int countExponentOf2(int n) {
+        int count = 0;
+        while (n % 2 == 0) {
+            n /= 2;
+            count++;
+        }
+        return count;
+    }
+    
+    // Main function to find the number with the maximum exponent of 2
+    int MaxExponents(int a, int b) {
+        int maxExponent = -1;
+        int result = a;
+    
+        for (int i = a; i <= b; i++) {
+            int exp = countExponentOf2(i);
+            if (exp > maxExponent) {
+                maxExponent = exp;
+                result = i;
+            } else if (exp == maxExponent && i < result) {
+                result = i;  // pick the smaller number in case of tie
+            }
+        }
+    
+        return result;
+    }
+
+### Day 06 - Corporate - Technical Questions
+You are given a function,
+
+Void *ReplaceCharacter(Char str[], int n, char ch1, char ch2);
+
+The function accepts a string  ‘ str’ of length n and two characters ‘ch1’ and ‘ch2’ as its arguments . Implement the function to modify and return the string ‘ str’ in such a way that all occurrences of ‘ch1’ in original string are replaced by ‘ch2’ and all occurrences of ‘ch2’  in original string are replaced by ‘ch1’.
+
+Assumption: String Contains only lower-case alphabetical letters.
+
+Note:
+
+Return null if string is null.
+
+If both characters are not present in string or both of them are same , then return the string unchanged.
+
+Example:
+
+Input:
+
+Str: apples
+ch1:a
+ch2:p
+
+Output:
+paales
+
+#### Purpose: Modifies the string in-place, and also returns a pointer to the modified string.
+Usage: Lets the caller receive the modified string explicitly, even if they use the return value.
+
+    void* ReplaceCharacter(char str[], int n, char ch1, char ch2) {
+        // Null check
+        if (str == nullptr) return nullptr;
+    
+        // If both characters are the same, return as-is
+        if (ch1 == ch2) return str;
+    
+        // Flags to check if ch1 or ch2 are present in the original string
+        bool foundCh1 = false, foundCh2 = false;
+    
+        // First pass to detect if either ch1 or ch2 exists
+        for (int i = 0; i < n; i++) {
+            if (str[i] == ch1) foundCh1 = true;
+            else if (str[i] == ch2) foundCh2 = true;
+        }
+    
+        // If neither character is present, return unchanged string
+        if (!foundCh1 && !foundCh2) return str;
+    
+        // Second pass to swap characters
+        for (int i = 0; i < n; i++) {
+            if (str[i] == ch1)
+                str[i] = '#';  // Temporary placeholder to avoid conflict
+        }
+        for (int i = 0; i < n; i++) {
+            if (str[i] == ch2)
+                str[i] = ch1;
+        }
+        for (int i = 0; i < n; i++) {
+            if (str[i] == '#')
+                str[i] = ch2;
+        }
+    
+        return str;
+    }
+#### Purpose: Modifies the string in-place and does not return anything.
+Usage: You just call the function and it changes the original string directly.
+
+    void ReplaceCharacter(char str[], int n, char ch1, char ch2) {
+        if (str == nullptr || ch1 == ch2) return;
+    
+        bool foundCh1 = false, foundCh2 = false;
+    
+        for (int i = 0; i < n; i++) {
+            if (str[i] == ch1) foundCh1 = true;
+            else if (str[i] == ch2) foundCh2 = true;
+        }
+    
+        if (!foundCh1 && !foundCh2) return;
+    
+        // Replace ch1 temporarily with #
+        for (int i = 0; i < n; i++) {
+            if (str[i] == ch1)
+                str[i] = '#';
+        }
+    
+        // Replace ch2 with ch1
+        for (int i = 0; i < n; i++) {
+            if (str[i] == ch2)
+                str[i] = ch1;
+        }
+    
+        // Replace # with ch2
+        for (int i = 0; i < n; i++) {
+            if (str[i] == '#')
+                str[i] = ch2;
+        }
     }
 
