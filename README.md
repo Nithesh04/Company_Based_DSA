@@ -601,3 +601,74 @@ Usage: You just call the function and it changes the original string directly.
         }
     }
 
+#### Day 08 - Corporate - Technical Questions 
+
+Lowest Common Ancestor in BST
+
+Given a Binary Search Tree and two node values, return their Lowest Common Ancestor (LCA).
+
+BST:       6  
+         /   \  
+        2     8  
+
+Input: p = 2, q = 8  
+
+Output: 6
+
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root) return NULL;
+    
+        // If both p and q are less than root, LCA lies in left
+        if (p->val < root->val && q->val < root->val)
+            return lowestCommonAncestor(root->left, p, q);
+    
+        // If both p and q are greater than root, LCA lies in right
+        if (p->val > root->val && q->val > root->val)
+            return lowestCommonAncestor(root->right, p, q);
+    
+        // Else, root is the LCA
+        return root;
+    }
+
+#### The system needs to compute the final grade for each student after processing their midterm and final exam scores. The final grade is determined as follows:
+
+The midterm score contributes 40% to the final grade.
+
+The final exam score contributes 60% to the final grade.
+
+You are given two lists:
+
+One list contains midterm scores of students.
+
+Another list contains final exam scores of students.
+
+Your task is to write a function calculate_final_grades(midterm_scores, final_scores) that computes the final grade for each student and returns a list of their final grades. The grades should be rounded to two decimal places.
+
+Test Case 01  :
+
+Input:  [50, 70, 90], [60, 80, 100]
+Output: [55.0, 75.0, 95.0]
+
+Test Case 02  :
+
+Input:  [95, 88], [70, 77]
+Output: [80.0, 80.4]
+
+    vector<double> calculate_final_grades(const vector<int>& midterm_scores, const vector<int>& final_scores) {
+        vector<double> final_grades;
+        int n = midterm_scores.size();
+    
+        for (int i = 0; i < n; ++i) {
+            double final_grade = (midterm_scores[i] * 0.4) + (final_scores[i] * 0.6);
+            final_grade = round(final_grade * 100) / 100.0; // rounding to 2 decimal places
+            final_grades.push_back(final_grade);
+        }
+    
+        return final_grades;
+    }
