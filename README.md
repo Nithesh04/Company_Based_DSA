@@ -623,17 +623,13 @@ struct TreeNode {
 };
 
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (!root) return NULL;
-    
-        // If both p and q are less than root, LCA lies in left
-        if (p->val < root->val && q->val < root->val)
-            return lowestCommonAncestor(root->left, p, q);
-    
-        // If both p and q are greater than root, LCA lies in right
-        if (p->val > root->val && q->val > root->val)
-            return lowestCommonAncestor(root->right, p, q);
-    
-        // Else, root is the LCA
+        if(root==NULL) return NULL;
+        if(root->val<p->val && root->val <q->val){
+            return lowestCommonAncestor(root->right,p,q);
+        }
+        if(root->val>p->val && root->val>q->val){
+            return lowestCommonAncestor(root->left,p,q);
+        }
         return root;
     }
 
