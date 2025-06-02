@@ -608,7 +608,7 @@ Lowest Common Ancestor in BST
 Given a Binary Search Tree and two node values, return their Lowest Common Ancestor (LCA).
 
 BST:       6  
-         /   \  
+&nbsp&nbsp         /   \  
         2     8  
 
 Input: p = 2, q = 8  
