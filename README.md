@@ -669,3 +669,41 @@ Output: [80.0, 80.4]
     
         return final_grades;
     }
+
+#### Day 10 - Corporate - Technical Questions - 02.06.2025
+
+A warehouse has multiple shelves represented by an array of weights.You must determine if you can split the array into two parts with equal sum.
+
+You're given an array of integers, where each element represents the weight on a shelf.
+You need to determine if it's possible to split the array into two parts such that the sum of the weights in both parts is equal.
+
+Sample Input 01 :
+
+int[] shelves = {1, 2, 3, 4, 6}
+
+Sample Input 02 :
+
+int[] shelves = {1, 2, 3}
+
+    bool canSplitArray(const vector<int>& shelves) {
+        int totalSum = 0;
+        for (int weight : shelves) {
+            totalSum += weight;
+        }
+    
+        // If total sum is odd, we cannot split into two equal parts
+        if (totalSum % 2 != 0) {
+            return false;
+        }
+    
+        int target = totalSum / 2;
+        int prefixSum = 0;
+    
+        // Check if there exists a prefix with sum equal to target
+        for (int i = 0; i < shelves.size() - 1; ++i) {
+            prefixSum += shelves[i];
+            if (prefixSum == target) {
+                return true;
+            }
+        }
+    }
