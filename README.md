@@ -753,3 +753,33 @@ Output = [2, 3]
         }
         return res;
     }
+
+#### Day 12 - Problem Solving for the day - 05.06.2025 
+
+Subarray Sum Equals K
+
+Given nums[] and an integer k, return the total number of continuous subarrays whose sum equals to k.
+
+nums = [1,1,1], k = 2
+
+Output = 2
+
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> prefixSumCount;
+        int currentSum = 0;
+        int count = 0;
+    
+        prefixSumCount[0] = 1; // base case: prefix sum 0 occurs once
+    
+        for (int num : nums) {
+            currentSum += num;
+    
+            if (prefixSumCount.find(currentSum - k) != prefixSumCount.end()) {
+                count += prefixSumCount[currentSum - k];
+            }
+    
+            prefixSumCount[currentSum]++;
+        }
+    
+        return count;
+    }
