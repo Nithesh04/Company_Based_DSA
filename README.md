@@ -734,3 +734,22 @@ Output = [3,3,5,5,6,7]
             }
             return ans;
         }
+#### Day 11 - Problem Solving for the day 
+
+Find All Duplicate Numbers
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice. Return all duplicates without using extra space and in O(n) time.
+nums = [4,3,2,7,8,2,3,1]
+Output = [2, 3]
+
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> res;
+        for (int i = 0; i < nums.size(); ++i) {
+            int index = abs(nums[i]) - 1;
+            if (nums[index] < 0) {
+                res.push_back(abs(nums[i]));
+            } else {
+                nums[index] = -nums[index];
+            }
+        }
+        return res;
+    }
