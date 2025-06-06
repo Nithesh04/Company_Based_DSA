@@ -783,3 +783,52 @@ Output = 2
     
         return count;
     }
+
+#### Day 13 - Problem Solving for the day 
+
+Minimum Swaps to Sort
+
+Given an array of distinct elements, find the minimum number of swaps required to sort the array.
+
+Input:
+
+arr = [4, 3, 2, 1]
+
+Output: 2
+
+    int minSwaps(vector<int>& arr) {
+        int n = arr.size();
+        vector<pair<int, int>> vec(n);
+        
+        // Store value and original index
+        for (int i = 0; i < n; ++i)
+            vec[i] = {arr[i], i};
+        
+        // Sort based on value
+        sort(vec.begin(), vec.end());
+        
+        vector<bool> visited(n, false);
+        int swaps = 0;
+        
+        for (int i = 0; i < n; ++i) {
+            // If already visited or already in correct position
+            if (visited[i] || vec[i].second == i)
+                continue;
+    
+            int cycle_size = 0;
+            int j = i;
+            
+            // Visit all nodes in this cycle
+            while (!visited[j]) {
+                visited[j] = true;
+                j = vec[j].second;
+                ++cycle_size;
+            }
+    
+            // If cycle size is k, it takes (k-1) swaps
+            if (cycle_size > 0)
+                swaps += (cycle_size - 1);
+        }
+    
+        return swaps;
+    }
