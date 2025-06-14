@@ -881,4 +881,242 @@ Output: 3
         vector<int> temp(arr.size());
         return mergeSort(arr, temp, 0, arr.size() - 1);
     }
+
+#### Day 15 - Problem Solving for the day - 08.06.2025 
+
+Maximum Length of Subarray With Equal 0s and 1s
+
+Given a binary array, find the maximum length of a contiguous subarray with equal number of 0s and 1s.
+
+Input: [0, 1, 0, 1, 1, 0]
+
+Output: 6
+
+    int findMaxLength(vector<int>& nums) {
+        unordered_map<int, int> prefixMap; // sum -> first index
+        int maxLength = 0;
+        int sum = 0;
     
+        // Initialize prefix sum 0 at index -1
+        prefixMap[0] = -1;
+    
+        for (int i = 0; i < nums.size(); ++i) {
+            // Convert 0 to -1
+            sum += (nums[i] == 0) ? -1 : 1;
+    
+            if (prefixMap.find(sum) != prefixMap.end()) {
+                maxLength = max(maxLength, i - prefixMap[sum]);
+            } else {
+                prefixMap[sum] = i;
+            }
+        }
+    
+        return maxLength;
+    }
+
+#### Day 16 - Problem Solving for the day
+The Person using supermarket app needs to calculate the total cost of the items in a user's shopping cart after applying some discount rules.
+
+The shopping cart is represented as an array of item prices.
+
+Some items are eligible for a special discount. If the price of an item is greater than 50, a discount of 10% is applied to that item.
+
+If the total cost of the cart exceeds 200, an additional 5% discount is applied to the entire cart.
+
+Your task is to write a function calculate_cart_total(cart) that calculates the final total after applying the discounts.
+
+Test Case 01  :
+
+Input:  [10, 20, 30, 50]
+Output: 110
+
+    double calculate_cart_total(vector<double>& cart) {
+        double total = 0.0;
+    
+        // Apply item-level discount
+        for (double price : cart) {
+            if (price > 50) {
+                price *= 0.9; // 10% discount
+            }
+            total += price;
+        }
+    
+        // Apply cart-level discount if total > 200
+        if (total > 200) {
+            total *= 0.95; // 5% discount
+        }
+    
+        return total;
+    }
+#### Day 17 - Problem Solving for the day
+Airline's Maintenance System.
+
+After every flight, seats with even-numbered seat IDs need to be flagged for special cleaning due to proximity to air vents. The system receives a list of seat numbers that were occupied during the flight.
+
+To help the cleaning crew, you must replace every even seat number in the list with 0 to indicate that those seats need to be cleaned.
+
+Test case 01 :
+
+Input:  [2, 4, 6, 8]
+Output: [0, 0, 0, 0]
+
+Test case 02 :
+
+Input:  [12, 13, 14]
+Output: [0, 13, 0]
+
+    vector<int> flag_even_seats(vector<int>& seats) {
+        for (int& seat : seats) {
+            if (seat % 2 == 0) {
+                seat = 0; // Even → mark for cleaning
+            }
+        }
+        return seats;
+    }
+
+#### Day 18 - Problem Solving for the day - 11.06.2025
+
+A flight booking system tracks the number of passengers who boarded at each stopover during a long journey with multiple cities. The data is stored in an integer array where each element represents the number of new passengers who boarded at each stopover.
+
+Due to regulations, the airline must analyze how many continuous sequences of stopovers (subarrays) had a total of exactly K passengers boarding.
+
+You need to help the airline count the total number of such continuous subarrays where the sum of boarded passengers is equal to the given number K.
+
+Integer array boardedPassengers[] – number of passengers boarded at each stop.
+Integer K – the exact sum of passengers required.
+Input:
+boardedPassengers = {3, 4, 7, 2, -3, 1, 4, 2}
+K = 7
+Output: 4
+
+    int countSubarraysWithSumK(vector<int>& arr, int K) {
+        unordered_map<int, int> prefixSumFreq;
+        prefixSumFreq[0] = 1;  // base case for subarrays starting at index 0
+    
+        int currentSum = 0;
+        int count = 0;
+    
+        for (int i = 0; i < arr.size(); i++) {
+            currentSum += arr[i];
+    
+            // Check if there is a prefix sum that makes currentSum - K
+            if (prefixSumFreq.find(currentSum - K) != prefixSumFreq.end()) {
+                count += prefixSumFreq[currentSum - K];
+            }
+    
+            // Update frequency of the current prefix sum
+            prefixSumFreq[currentSum]++;
+        }
+    
+        return count;
+    }
+#### OR
+
+    int subarraySum(vector<int>& nums, int k) {
+        int presum = 0;
+        int count = 0;
+        map<int, int> mpp;
+        mpp[0] = 1; // handles subarrays starting at index 0
+    
+        for (int i = 0; i < nums.size(); i++) {
+            presum += nums[i];
+            int remove = presum - k;
+    
+            // This line is safe if you use unordered_map or check existence before
+            count += mpp[remove]; // if remove doesn't exist, map returns 0
+    
+            mpp[presum] += 1;
+        }
+    
+        return count;
+    }
+
+#### Day 19 - Problem Solving for the day
+
+You are managing a warehouse where boxes are kept in an unordered array of unique labels representing their weights. To improve space optimization, the boxes need to be rearranged in ascending order of weight.
+
+However, due to limited movement, you are allowed to swap only two boxes at a time. Your goal is to determine the minimum number of swaps required to sort the boxes in ascending order of weight.
+
+Constraints:
+
+1.Each box has a unique weight represented as an integer.
+
+2.All weights are positive.
+
+3.You can swap two boxes in one operation.
+
+4.Return the minimum number of swaps needed.
+
+Input:  arr = {4, 3, 2, 1}
+Output: 2
+
+    int minimumSwapsToSort(vector<int>& arr) {
+        int n = arr.size();
+        vector<pair<int, int>> valueIndexPairs(n);
+    
+        // Pair each value with its original index
+        for (int i = 0; i < n; i++) {
+            valueIndexPairs[i] = {arr[i], i};
+        }
+    
+        // Sort by value
+        sort(valueIndexPairs.begin(), valueIndexPairs.end());
+    
+        vector<bool> visited(n, false);
+        int swaps = 0;
+    
+        // Detect cycles
+        for (int i = 0; i < n; i++) {
+            if (visited[i] || valueIndexPairs[i].second == i)
+                continue;
+    
+            int cycle_size = 0;
+            int j = i;
+    
+            while (!visited[j]) {
+                visited[j] = true;
+                j = valueIndexPairs[j].second; // Go to the next index in the cycle
+                cycle_size++;
+            }
+    
+            if (cycle_size > 1)
+                swaps += (cycle_size - 1);
+        }
+    
+        return swaps;
+    }
+
+#### Day 20 - Problem Solving for the day - 13.06.2025
+
+Next Greater Element (NGE)
+
+You're building a Stock Prediction Tool. For a given array of stock prices for consecutive days, you want to predict the next day with a higher stock price for each day. If no such day exists, the prediction should be -1.
+
+Input:
+
+arr = [4, 5, 2, 25]
+
+Expected Output:
+
+[5, 25, 25, -1]
+
+    vector<int> nextGreaterElements(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> result(n, -1);
+        stack<int> st;  // will store the actual values, not indexes
+    
+        for (int i = n - 1; i >= 0; i--) {
+            // Pop all smaller or equal elements
+            while (!st.empty() && st.top() <= arr[i]) {
+                st.pop();
+            }
+    
+            if (!st.empty()) {
+                result[i] = st.top();
+            }
+    
+            st.push(arr[i]);
+        }
+    
+        return result;
+    }
