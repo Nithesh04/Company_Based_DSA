@@ -1120,3 +1120,75 @@ Expected Output:
     
         return result;
     }
+
+#### Day 22 - Problem Solving for the day - 15.06.2025
+
+Music streaming app 
+
+The app displays a list of songs in a playlist. There’s a special feature where users can “rotate” their playlist — 
+meaning, they want to move the last K songs to the beginning of the list to change the listening order.
+
+As a developer, you're tasked with implementing this feature.
+
+Write a Java function that rotates a given integer array (representing song IDs in a playlist) to the right by K positions.
+
+Sample input  : 
+
+songs = [1, 2, 3, 4, 5]
+
+k = 2
+
+Sample output 
+
+[4, 5, 1, 2, 3]
+
+    // Function to reverse a portion of the vector
+    void reverse(vector<int>& songs, int start, int end) {
+        while (start < end) {
+            swap(songs[start], songs[end]);
+            start++;
+            end--;
+        }
+    }
+    
+    // Function to rotate playlist by k positions
+    void rotatePlaylist(vector<int>& songs, int k) {
+        int n = songs.size();
+        k = k % n; // Handle if k > n
+    
+        // Step 1: Reverse entire playlist
+        reverse(songs, 0, n - 1);
+        // Step 2: Reverse first k songs
+        reverse(songs, 0, k - 1);
+        // Step 3: Reverse remaining songs
+        reverse(songs, k, n - 1);
+    }
+
+#### Day 23 - Problem Solving for the day - 16.06.2025
+Given a list of words, group all the anagrams together.
+Input :
+["listen", "silent", "enlist", "google", "gooegl", "cat", "tac", "act"]
+
+Output :
+[[listen, silent, enlist], [google, gooegl], [cat, tac, act]]
+
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+            unordered_map<string,vector<string>> mpp;
+            for(auto str : strs){
+                string hashString="";
+                vector<int> fre(26,0);
+                for(char ch : str){
+                    fre[ch-'a']++;
+                }
+                for(int i=0;i<26;i++){
+                    hashString.push_back(fre[i]);
+                    hashString.push_back('#');
+                }
+                mpp[hashString].push_back(str);
+            }
+            vector<vector<string>> anagram;
+            for(auto [key, vectofStrings]: mpp){
+                anagram.push_back(vectofStrings);
+            }
+            return anagram;
+        }
