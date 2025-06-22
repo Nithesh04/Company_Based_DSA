@@ -1233,3 +1233,232 @@ Output :
         }
         return rowIndex;
     }
+
+#### Day 25 - Problem Solving for the day 
+Given a string str, write a Java program to print all the possible permutations of the characters of the string. The order of the characters in the permutations matters, and each character should be used exactly once in each permutation.
+
+If the string contains duplicate characters, make sure the output includes only unique permutations.
+
+You may print the results in any order.
+
+Test case 1 
+
+input:
+
+str = "abc"
+
+Output:
+
+abc
+acb
+bac
+bca
+cab
+cba
+
+    #include <iostream>
+    #include <vector>
+    #include <algorithm>
+    
+    using namespace std;
+    
+    void permuteUnique(string &str, vector<bool> &used, string &current, vector<string> &result) {
+        if (current.length() == str.length()) {
+            result.push_back(current);
+            return;
+        }
+    
+        for (int i = 0; i < str.length(); ++i) {
+            // Skip already used characters
+            if (used[i])
+                continue;
+    
+            // Skip duplicates: if current char is same as previous and previous is not used
+            if (i > 0 && str[i] == str[i - 1] && !used[i - 1])
+                continue;
+    
+            used[i] = true;
+            current.push_back(str[i]);
+            permuteUnique(str, used, current, result);
+            current.pop_back();
+            used[i] = false;
+        }
+    }
+    
+    int main() {
+        string str;
+        cout << "Enter string: ";
+        cin >> str;
+    
+        sort(str.begin(), str.end()); // Sort to group duplicates
+        vector<bool> used(str.length(), false);
+        string current;
+        vector<string> result;
+    
+        permuteUnique(str, used, current, result);
+    
+        for (const string &s : result)
+            cout << s << endl;
+    
+        return 0;
+    }
+
+#### Day 26 - Problem Solving for the day
+
+Write a program to count the number of distinct value pairs from a price array such that each pair sums to a given target.
+Two pairs (a, b) and (b, a) are considered the same, and each element can be used only once in a pair.
+The same value may appear multiple times in the array, but once a value is used in a valid pair, it can't be reused.
+
+Sample Input :
+
+prices = [100, 50, 150, 50, 200]
+
+target = 200
+
+Output :
+
+1
+
+    int countPairsWithTargetSum(vector<int>& prices, int target) {
+        sort(prices.begin(), prices.end());
+        int left = 0, right = prices.size() - 1;
+        int count = 0;
+    
+        while (left < right) {
+            int sum = prices[left] + prices[right];
+    
+            if (sum == target) {
+                count++;
+                
+                int leftVal = prices[left];
+                int rightVal = prices[right];
+    
+                // Move left to next different element
+                while (left < right && prices[left] == leftVal) left++;
+                // Move right to previous different element
+                while (left < right && prices[right] == rightVal) right--;
+            }
+            else if (sum < target) {
+                left++;
+            }
+            else {
+                right--;
+            }
+        }
+    
+        return count;
+    }
+    
+    int main() {
+        vector<int> prices = {100, 50, 150, 50, 200};
+        int target = 200;
+    
+        int result = countPairsWithTargetSum(prices, target);
+        cout << "Output:\n" << result << endl;
+    
+        return 0;
+    }
+
+#### Day 27 - Problem Solving for the day
+A furnishing company is manufacturing a new collection of curtains. The curtains are of two colors aqua(a) and black (b). The curtains color is represented as a string(str) consisting of a’s and b’s of length N. Then, they are packed (substring) into L number of curtains in each box. The box with the maximum number of ‘aqua’ (a) color curtains is labeled. The task here is to find the number of ‘aqua’ color curtains in the labeled box.
+
+Note :
+
+If ‘L’ is not a multiple of N, the remaining number of curtains should be considered as a substring too. In simple words, after dividing the curtains in sets of ‘L’, any curtains left will be another set(refer example 1)
+
+Test Case 1:
+
+Input :
+
+bbbaaababa -> Value of str
+
+3    -> Value of L
+
+Output:
+
+3   -> Maximum number of a’s
+
+    int maxAquaCurtains(string str, int L) {
+        int maxCount = 0;
+        int n = str.length();
+    
+        for (int i = 0; i < n; i += L) {
+            int count = 0;
+    
+            // Loop through the substring of length L (or less if at the end)
+            for (int j = i; j < i + L && j < n; ++j) {
+                if (str[j] == 'a') {
+                    count++;
+                }
+            }
+    
+            maxCount = max(maxCount, count);
+        }
+    
+        return maxCount;
+    }
+
+Day 28 - Problem Solving for the day 
+
+Given a string S(input consisting) of ‘’ and ‘#’. The length of the string is variable. The task is to find the minimum number of ‘’ or ‘#’ to make it a valid string. The string is considered valid if the number of ‘’ and ‘#’ are equal. The ‘’ and ‘#’ can be at any position in the string.
+Note : The output will be a positive or negative integer based on number of ‘*’ and ‘#’ in the input string.
+
+(*>#): positive integer
+(#>*): negative integer
+(#=*): 0
+Example 1:
+Input 1:
+
+###***   -> Value of S
+
+Output :
+
+0   → number of * and # are equal
+
+
+    int findBalance(string S) {
+        int starCount = 0;
+        int hashCount = 0;
+    
+        for (char ch : S) {
+            if (ch == '*') starCount++;
+            else if (ch == '#') hashCount++;
+        }
+    
+        return starCount - hashCount; // positive, negative, or 0
+    }
+
+Day 29 - Problem Solving for the day - 22.06.2025
+
+Given a string, print non-repeating characters of the string.
+
+Examples:
+
+Example 1:
+
+Input: string = “google”
+Output: l,e
+
+Example 2:
+
+Input: string = “yahoo”
+Output: y,a,h
+
+    vector<char> getNonRepeatingChars(const string& str) {
+        unordered_map<char, int> freq;
+        vector<char> result;
+    
+        // Step 1: Count frequency of each character
+        for (char ch : str) {
+            freq[ch]++;
+        }
+    
+        // Step 2: Store characters with frequency 1
+        for (char ch : str) {
+            if (freq[ch] == 1) {
+                result.push_back(ch);
+            }
+        }
+    
+        return result;
+    }
