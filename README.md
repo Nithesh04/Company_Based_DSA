@@ -1462,3 +1462,33 @@ Output: y,a,h
     
         return result;
     }
+
+Day 30 - Problem Solving for the day
+Problem: Given a String, find the largest word in the string.
+
+Test case 1:
+Input: string s=”Google Doc”
+Output: “Google”
+
+Test Case 2:
+Input: string s=”Microsoft Teams”
+Output: “Microsoft”
+
+    int findMaxLengthWordSize(string s) {
+        int maxlength = 0;
+        string temp = "";
+    
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] != ' ') {
+                temp += s[i];
+            } else {
+                maxlength = max(maxlength, (int)temp.size());
+                temp = ""; // reset for next word
+            }
+        }
+    
+        // Check last word if string doesn't end with space
+        maxlength = max(maxlength, (int)temp.size());
+    
+        return maxlength;
+    }
