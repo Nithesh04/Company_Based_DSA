@@ -1492,3 +1492,45 @@ Output: “Microsoft”
     
         return maxlength;
     }
+
+Day 32 - Problem Solving for the day 
+
+Write a program to sort characters (numbers and punctuation symbols are not included) in a given string.
+
+Testcase 1:
+Input: String str = “zxcbg”
+Output: bcgxz
+
+Test case 2:
+Input: String str = “edcba”
+Output: abcde
+
+    string sortAlphabetsOnly(string str) {
+        string letters = "";
+    
+        // Step 1: Extract only alphabetic characters
+        for (int i = 0; i < str.length(); i++) {
+            if (isalpha(str[i])) {
+                // Optional: convert to lowercase to keep output uniform
+                if (str[i] >= 'A' && str[i] <= 'Z')
+                    letters += str[i] + 32;
+                else
+                    letters += str[i];
+            }
+        }
+    
+        // Step 2: Bubble Sort on letters
+        int n = letters.length();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (letters[j] > letters[j + 1]) {
+                    // Swap
+                    char temp = letters[j];
+                    letters[j] = letters[j + 1];
+                    letters[j + 1] = temp;
+                }
+            }
+        }
+    
+        return letters;
+    }
