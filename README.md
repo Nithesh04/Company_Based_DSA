@@ -1534,3 +1534,389 @@ Output: abcde
     
         return letters;
     }
+
+Day 33 - Problem Solving for the day
+Write a program to find a word in a given string that has the highest number of repeated letters. If not found, return -1.
+
+Test Case 1:
+
+Input: string=”abcdefghij google microsoft”
+Output: google
+
+Test Case 2:
+
+Input: string = “cameron blue”
+Output: -1
+
+    string wordWithHighestRepeats(string str) {
+        int n = str.length();
+        string word = "", result = "-1";
+        int maxRepeats = 0;
+    
+        for (int i = 0; i <= n; i++) {
+            // If space or end of string, process the word
+            if (i == n || str[i] == ' ') {
+                if (!word.empty()) {
+                    map<char, int> freq;
+                    int localMax = 0;
+    
+                    for (char ch : word) {
+                        freq[ch]++;
+                        if (freq[ch] > 1) {
+                            localMax = max(localMax, freq[ch]);
+                        }
+                    }
+    
+                    if (localMax > maxRepeats) {
+                        maxRepeats = localMax;
+                        result = word;
+                    }
+    
+                    word = ""; // Reset for next word
+                }
+            } else {
+                word += str[i];
+            }
+        }
+    
+        return (maxRepeats > 1) ? result : "-1";
+    }
+
+Day 34 - Problem Solving for the day 
+
+Implement the following Function 
+
+def differenceofSum(n. m)
+
+The function accepts two integers n, m as arguments Find the sum of all numbers in range from 1 to m(both inclusive) that are not divisible by n. Return difference between sum of integers not divisible by n with sum of numbers divisible by n.
+
+Assumption:
+
+n>0 and m>0
+
+Sum lies between integral range
+
+Example
+
+Input
+
+n:4
+m:20
+
+Output
+90
+
+    int differenceofSum(int n, int m) {
+        int sumDivisible = 0;
+        int sumNotDivisible = 0;
+    
+        for (int i = 1; i <= m; i++) {
+            if (i % n == 0) {
+                sumDivisible += i;
+            } else {
+                sumNotDivisible += i;
+            }
+        }
+    
+        return sumNotDivisible - sumDivisible;
+    }
+
+Day 35 - Problem Solving for the day
+
+You are required to implement the following function:
+
+Int Calculate(int m, int n);
+
+The function accepts 2 positive integer ‘m’ and ‘n’ as its arguments.You are required to calculate the sum of numbers divisible both by 3 and 5, between ‘m’ and ‘n’ both inclusive and return the same.
+
+Note
+
+0 < m <= n
+
+Test Case 
+
+Input:
+
+m : 12
+
+n : 50
+
+Output
+90
+
+    int Calculate(int m, int n) {
+        int sum = 0;
+        for (int i = m; i <= n; i++) {
+            if (i % 15 == 0) {
+                sum += i;
+            }
+        }
+        return sum;
+    }
+
+Day 36 - Problem Solving for the day
+
+Given a number, convert it into the form of words, Note:- Consider maximum no. of digits in the number as 4.
+
+Test Cases :
+
+Test Case 1:
+Input: 7824
+Output: seven thousand eight hundred twenty four
+
+Test Case 2:
+Input: 370
+Output: three hundred seventy
+
+    string oneToNineteen[] = {"", "one", "two", "three", "four", "five", "six", "seven",
+                              "eight", "nine", "ten", "eleven", "twelve", "thirteen",
+                              "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+    
+    string tens[] = {"", "", "twenty", "thirty", "forty", "fifty",
+                     "sixty", "seventy", "eighty", "ninety"};
+    
+    // Helper for last two digits
+    string twoDigitToWords(int num) {
+        if (num < 20) return oneToNineteen[num];
+        int ten = num / 10;
+        int unit = num % 10;
+        return tens[ten] + (unit ? " " + oneToNineteen[unit] : "");
+    }
+    
+    string numberToWords(int num) {
+        if (num == 0) return "zero";
+    
+        string result = "";
+    
+        if (num >= 1000) {
+            result += oneToNineteen[num / 1000] + " thousand";
+            num %= 1000;
+            if (num) result += " ";
+        }
+    
+        if (num >= 100) {
+            result += oneToNineteen[num / 100] + " hundred";
+            num %= 100;
+            if (num) result += " ";
+        }
+    
+        if (num > 0) {
+            result += twoDigitToWords(num);
+        }
+    
+        return result;
+    }
+
+Day 37 - Problem Solving for the day 
+
+Given two strings, write a program to remove characters from the first string which are present in the second string.
+
+*Test case 1:*
+
+Input: String str1 = “abcdef”
+           String str2 = “cefz”
+
+Output: abd
+
+*Test case 2:*
+
+Input: String str1 = “xyzpw”
+           String str2 = “lmno”
+
+Output: xyzpw
+
+        string removeChars(string str1, string str2) {
+            unordered_set<char> charsToRemove(str2.begin(), str2.end());
+            string result = "";
+        
+            for (char c : str1) {
+                if (charsToRemove.find(c) == charsToRemove.end()) {
+                    result += c;
+                }
+            }
+        
+            return result;
+        }
+Day 38 - Problem Solving for the day
+
+Rearrange the array such that the first half is arranged in increasing order, and the second half is arranged in decreasing order
+
+Test Case 1:
+
+Input: 8 7 1 6 5 9
+Output: 1 5 6 9 8 7
+
+Test Case 2:
+
+Input: 4 2 8 6 15 5 9 20
+Output: 2 4 5 6 20 15 9 8
+
+    void reverseArray(vector<int>& arr, int start, int end) {
+        while (start < end) {
+            swap(arr[start], arr[end]);
+            start++;
+            end--;
+        }
+    }
+    
+    void rearrangeArray(vector<int>& arr) {
+        sort(arr.begin(), arr.end());  // Step 1: Sort entire array
+    
+        int n = arr.size();
+        int mid = n / 2;
+    
+        // Step 2: Reverse the second half using custom reverse
+        reverseArray(arr, mid, n - 1);
+    
+        // Print the rearranged array
+        for (int num : arr) {
+            cout << num << " ";
+        }
+        cout << endl;
+    }
+
+Day 39 - Problem Solving for the day 
+
+Given a string, write a program to Capitalize the first and last character of each word of that string.
+
+Test Case 1:
+
+Input: String str = "take u forward is awesome"
+
+Output: “TakE U ForwarD IS AwesomE”
+
+    string capitalizeFirstAndLast(string str) {
+        int n = str.length();
+        for (int i = 0; i < n; ) {
+            // Skip spaces
+            while (i < n && str[i] == ' ')
+                i++;
+    
+            if (i >= n) break;
+    
+            int start = i;
+    
+            // Move i to the end of the word
+            while (i < n && str[i] != ' ')
+                i++;
+    
+            int end = i - 1;
+    
+            // Capitalize first and last characters of the word
+            str[start] = toupper(str[start]);
+            if (end != start)  // Ensure word has more than 1 character
+                str[end] = toupper(str[end]);
+        }
+    
+        return str;
+    }
+
+Day 40 - Problem Solving for the day 
+
+Problem Statement: Given a string, calculate the frequency of characters in a string.
+
+Test Case :
+
+Input: "aaaBBBccc"
+
+Output :
+
+a : 3  
+B : 3  
+c : 3
+
+    void printCharFrequency(string str) {
+        unordered_map<char, int> freq;
+    
+        // Count frequency of each character
+        for (char ch : str) {
+            freq[ch]++;
+        }
+    
+        // Print frequency in order of first occurrence
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str[i];
+            if (freq[ch] != 0) {
+                cout << ch << " : " << freq[ch] << endl;
+                freq[ch] = 0; // mark as printed
+            }
+        }
+    }
+
+Day 41 - Problem Solving for the day  
+
+Given two singly linked lists list1 and list2, where each list contains sorted patient IDs in ascending order, write a Java program to merge them into one sorted linked list.
+
+Test Case:
+
+Input:
+
+list1: 1001 → 1003 → 1005
+
+list2: 1002 → 1004 → 1006
+
+Output:
+
+1001 → 1002 → 1003 → 1004 → 1005 → 1006
+
+    Node* mergeSortedLists(Node* list1, Node* list2) {
+    Node* dummy = new Node(0);  // use new to create pointer
+    Node* tail = dummy;
+
+    while (list1 && list2) {
+        if (list1->data < list2->data) {
+            tail->next = list1;
+            list1 = list1->next;
+        } else {
+            tail->next = list2;
+            list2 = list2->next;
+        }
+        tail = tail->next;
+    }
+
+    tail->next = (list1) ? list1 : list2;
+    return dummy->next;
+    }
+
+Day 42 - Problem Solving for the day 
+
+Find all the repeating elements present in an array.
+
+Test Case 1:
+
+Input: 
+Arr[] = [1,1,2,3,4,4,5,2]
+
+Output:
+1,2,4
+
+Test Case 2:
+
+Input:
+Arr[] = [1,1,0]
+
+Output:
+1
+
+    void findRepeatingElements(const vector<int>& arr) {
+        unordered_map<int, int> freq;
+    
+        // Count frequency of each element
+        for (int num : arr) {
+            freq[num]++;
+        }
+    
+        bool found = false;
+        for (const auto& pair : freq) {
+            if (pair.second > 1) {
+                cout << pair.first << " ";
+                found = true;
+            }
+        }
+    
+        if (!found) {
+            cout << "No repeating elements found";
+        }
+    
+        cout << endl;
+    }
