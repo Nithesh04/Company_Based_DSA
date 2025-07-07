@@ -1907,12 +1907,12 @@ Output:
         }
     
         bool found = false;
-        for (const auto& pair : freq) {
-            if (pair.second > 1) {
-                cout << pair.first << " ";
-                found = true;
-            }
+        for (auto pair : map) {
+          if (pair.second > 1) {
+          cout << pair.first << " ";
+          }
         }
+
     
         if (!found) {
             cout << "No repeating elements found";
