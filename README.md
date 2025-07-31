@@ -1920,3 +1920,38 @@ Output:
     
         cout << endl;
     }
+43. You are given an array of integers. Return the length of the longest subarray with a sum equal to zero.
+
+Test Case :
+
+Input: [1, 2, -3, 3, -1, 2, -2]
+
+Output: 3
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+    int longestZeroSumSubarray(vector<int>& nums) {
+        unordered_map<int, int> prefixSumIndex;
+        int maxLength = 0;
+        int sum = 0;
+    
+        for (int i = 0; i < nums.size(); i++) {
+            sum += nums[i];
+    
+            if (sum == 0) {
+                maxLength = i + 1;
+            }
+    
+            if (prefixSumIndex.find(sum) != prefixSumIndex.end()) {
+                maxLength = max(maxLength, i - prefixSumIndex[sum]);
+            } else {
+                prefixSumIndex[sum] = i;
+            }
+        }
+    
+        return maxLength;
+    }
+    
+
