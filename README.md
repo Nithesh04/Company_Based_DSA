@@ -1953,5 +1953,39 @@ using namespace std;
     
         return maxLength;
     }
+
+44. Given an integer array and an integer k, find the maximum sum of any contiguous subarray of size k.
+
+Test Case:
+
+Input: arr = [2, 1, 5, 1, 3, 2], k = 3
+Output: 9
+#include <iostream>
+#include <vector>
+using namespace std;
+
+    int maxSumSubarrayOfSizeK(const vector<int>& arr, int k) {
+        int n = arr.size();
+        if (n < k) return -1; // not enough elements for a window of size k
     
+        int windowSum = 0, maxSum = 0;
+    
+        // Calculate sum of first window
+        for (int i = 0; i < k; i++) {
+            windowSum += arr[i];
+        }
+    
+        maxSum = windowSum;
+    
+        // Slide the window
+        for (int i = k; i < n; i++) {
+            windowSum += arr[i] - arr[i - k];  // Add next element, remove first in window
+            maxSum = max(maxSum, windowSum);
+        }
+    
+        return maxSum;
+    }
+
+
+
 
